@@ -40,5 +40,11 @@ bus.trigger("message", new Message("xxx"), user1, user2);
 
 ## Changelog
 
-### Version 0.1
+### Version 0.0.2
+- Exporting `CallbackType` and `UnregisterCallback`
+- Fixed type of `OmnibusRegistrator`
+- Added `offAll` method to `Omnibus` class.
+- Added default generic type for `Omnibus` and `OmnibusRegistrator`
+
+### Version 0.01
 Initial Release

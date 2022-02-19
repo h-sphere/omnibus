@@ -1,7 +1,7 @@
 import { Omnibus } from "./Omnibus";
 import { CallbackType } from "./types";
 
-export class OmnibusRegistrator<EventDefinition extends Record<string, unknown[]>> {
+export class OmnibusRegistrator<EventDefinition extends Record<keyof EventDefinition, unknown[]> = Record<string, unknown[]>> {
     #bus: Omnibus<EventDefinition>;
     #registered: Array<{ name: keyof EventDefinition, fn: CallbackType<EventDefinition[keyof EventDefinition]> }>;
 

@@ -30,7 +30,7 @@ describe("Omnibus", () => {
     });
 
     it("should properly unregister a function", () => {
-        const bus = new Omnibus<Record<string, unknown[]>>();
+        const bus = new Omnibus();
         const fn = jest.fn();
         const fn2 = jest.fn();
 
@@ -40,5 +40,20 @@ describe("Omnibus", () => {
         bus.trigger("a");
         expect(fn).toBeCalled();
         expect(fn2).not.toBeCalled();
+    });
+
+    it('should properly unregister a function using `offAll`', () => {
+        const bus = new Omnibus();
+        const fn = jest.fn();
+        const fn2 = jest.fn();
+        bus.on('a', fn);
+        bus.on('b', fn2);
+
+        bus.offAll();
+        bus.trigger('a');
+        bus.trigger('b');
+        expect(fn).not.toBeCalled();
+        expect(fn2).not.toBeCalled();
+
     })
 })
