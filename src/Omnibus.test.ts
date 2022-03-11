@@ -1,3 +1,4 @@
+import { skipDuplicates } from "./functions";
 import { Omnibus } from "./Omnibus";
 
 describe("Omnibus", () => {
@@ -55,5 +56,20 @@ describe("Omnibus", () => {
         expect(fn).not.toBeCalled();
         expect(fn2).not.toBeCalled();
 
+    });
+
+
+    describe("Omnibus + Functions", () => {
+        it("should properly setup omnibus with skipDuplicates", () => {
+            const bus = new Omnibus();
+            const fn = jest.fn();
+            bus.on("a", skipDuplicates(fn));
+            bus.trigger("a", 1, 2);
+            bus.trigger("a", 1, 2);
+            bus.trigger("a", 2, 1);
+            expect(fn).toBeCalledTimes(2);
+            expect(fn).toHaveBeenNthCalledWith(1, 1, 2);
+            expect(fn).toHaveBeenNthCalledWith(2, 2, 1);
+        });
     })
 })

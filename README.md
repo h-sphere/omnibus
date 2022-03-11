@@ -12,7 +12,9 @@ yarn add @hypersphere/omnibus
 - Levarages TypeScript native functionality (no magic)
 - Fully open sourced
 
-## Basic Usage
+## Usage
+
+### Basic Example
 
 ```typescript
 import { User, Message } from "./types";
@@ -38,7 +40,33 @@ bus.trigger("message", new Message("xxx"), user1, user2);
 
 ```
 
+### Using helper functions
+```typescript
+import { Omnibus } from "@hypersphere/omnibus";
+import { skipDuplicates } from "@hypersphere/omnibus/functions";
+const bus = new Omnibus();
+bus.on("message", skipDuplicates(message => {
+    console.log(message);
+}));
+
+bus.trigger("Hello World");
+bus.trigger("Hello World");
+bus.trigger("Lorem Ipsum");
+
+/* Console:
+    Hello World
+    Lorem Ipsum
+*/
+```
+
 ## Changelog
+
+### Version 0.0.3
+- Added `@hypersphere/omnibus/functions` module that provides useful helper functionality:
+- `delay` allows you to get event delayed but set amount of milliseconds
+- `skipDuplicates` ensures that you won't get 2 same events with the same parameters in a row
+- `filter` provides generic way for filtering events by providing custom function
+- `throttle` and `debounce` provides functionality of throttling and debouncing events respectively
 
 ### Version 0.0.2
 - Exporting `CallbackType` and `UnregisterCallback`
@@ -46,5 +74,5 @@ bus.trigger("message", new Message("xxx"), user1, user2);
 - Added `offAll` method to `Omnibus` class.
 - Added default generic type for `Omnibus` and `OmnibusRegistrator`
 
-### Version 0.01
+### Version 0.0.1
 Initial Release
