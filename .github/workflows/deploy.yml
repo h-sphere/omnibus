@@ -34,6 +34,7 @@ jobs:
           .
           !node_modules
           !src
+          !.git
 
   publish:
     runs-on: ubuntu-latest
@@ -42,7 +43,7 @@ jobs:
       NPM_TOKEN: ${{secrets.NPM_TOKEN}}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     - name: Download artifacts
       uses: actions/download-artifact@v3
       with:
