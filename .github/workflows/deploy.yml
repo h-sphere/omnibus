@@ -42,7 +42,8 @@ jobs:
       NPM_TOKEN: ${{secrets.NPM_TOKEN}}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-    - name: Download math result for job 1
+    - uses: actions/checkout@v1
+    - name: Download artifacts
       uses: actions/download-artifact@v3
       with:
         name: artifacts
