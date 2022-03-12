@@ -1,3 +1,4 @@
+node_modules
 src/
 babel.config.js
 *.test.js

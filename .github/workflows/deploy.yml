@@ -27,10 +27,13 @@ jobs:
     - name: Compile
       run: yarn compile
     - name: Upload artifacts folder
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v3
       with:
         name: artifacts
-        path: .
+        path: |
+          .
+          !node_modules
+          !src
 
   publish:
     runs-on: ubuntu-latest
