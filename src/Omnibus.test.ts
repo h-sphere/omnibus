@@ -61,7 +61,10 @@ describe("Omnibus", () => {
 
     describe("Omnibus + Functions", () => {
         it("should properly setup omnibus with skipDuplicates", () => {
-            const bus = new Omnibus();
+            interface BusEvents {
+                "a": [number, number]
+            }
+            const bus = new Omnibus<BusEvents>();
             const fn = jest.fn();
             bus.on("a", skipDuplicates(fn));
             bus.trigger("a", 1, 2);

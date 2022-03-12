@@ -1,12 +1,12 @@
 import { CallbackType } from ".";
 
-export const delay = <T extends []>(callback: CallbackType<T>, delayInMs: number): CallbackType<T> => {
+export const delay = <T extends unknown[]>(callback: CallbackType<T>, delayInMs: number): CallbackType<T> => {
     return (...args: T) => {
         setInterval(() => callback(...args), delayInMs);
     }
 };
 
-export const filter = <T extends []>(callback: CallbackType<T>, filterFunction: (currentArgument: T | null, previousArgument: T) => boolean): CallbackType<T> => {
+export const filter = <T extends unknown[]>(callback: CallbackType<T>, filterFunction: (currentArgument: T | null, previousArgument: T) => boolean): CallbackType<T> => {
     let previous: T = null;
     return (...args: T) => {
         if (filterFunction(args, previous)) {
@@ -45,11 +45,11 @@ const compareObjects = (a: unknown, b: unknown): boolean => {
     }
 };
 
-export const skipDuplicates = <T extends []>(callback: CallbackType<T>): CallbackType<T> => {
+export const skipDuplicates = <T extends unknown[]>(callback: CallbackType<T>): CallbackType<T> => {
     return filter(callback, (a,b) => !compareObjects(a,b));
 };
 
-export const throttle = <T extends []>(callback: CallbackType<T>, timeInMs: number): CallbackType<T> => {
+export const throttle = <T extends unknown[]>(callback: CallbackType<T>, timeInMs: number): CallbackType<T> => {
     let lastCallback = -1;
     return (...args: T) => {
         let time = Date.now();
@@ -60,7 +60,7 @@ export const throttle = <T extends []>(callback: CallbackType<T>, timeInMs: numb
     }
 };
 
-export const debounce = <T extends []>(callback: CallbackType<T>, timeInMs: number): CallbackType<T> => {
+export const debounce = <T extends unknown[]>(callback: CallbackType<T>, timeInMs: number): CallbackType<T> => {
     let delayHandle = null;
     return (...args: T) => {
         if (delayHandle) {

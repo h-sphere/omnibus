@@ -61,6 +61,10 @@ bus.trigger("Lorem Ipsum");
 
 ## Changelog
 
+### Version 0.0.4
+- Fixed way package was exporting it's functions
+- Exporting sourcemaps
+
 ### Version 0.0.3
 - Added `@hypersphere/omnibus/functions` module that provides useful helper functionality:
 - `delay` allows you to get event delayed but set amount of milliseconds

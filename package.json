@@ -1,8 +1,8 @@
 {
   "name": "@hypersphere/omnibus",
-  "version": "0.0.3",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "version": "0.0.4",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "license": "MIT",
   "devDependencies": {
     "@babel/preset-env": "^7.16.11",
