@@ -2,7 +2,7 @@ import { CallbackType } from ".";
 
 export const delay = <T extends unknown[]>(callback: CallbackType<T>, delayInMs: number): CallbackType<T> => {
     return (...args: T) => {
-        setInterval(() => callback(...args), delayInMs);
+        setTimeout(() => callback(...args), delayInMs);
     }
 };
 

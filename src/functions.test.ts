@@ -116,6 +116,8 @@ describe("Omnibus Functions", () => {
             jest.advanceTimersByTime(500);
             expect(fn).toBeCalledTimes(2);
             expect(fn).toBeCalledWith(2);
+            jest.advanceTimersByTime(100000);
+            expect(fn).toBeCalledTimes(2); // no additional calls.
         });
     })
 });

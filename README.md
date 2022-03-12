@@ -61,6 +61,9 @@ bus.trigger("Lorem Ipsum");
 
 ## Changelog
 
+### Version 0.0.6
+- Fixing issue with delay using interval instead of timeout function.
+
 ### Version 0.0.5
 - Fixed deployment issues.
 
