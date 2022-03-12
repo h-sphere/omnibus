@@ -61,6 +61,9 @@ bus.trigger("Lorem Ipsum");
 
 ## Changelog
 
+### Version 0.0.5
+- Fixed deployment issues.
+
 ### Version 0.0.4
 - Fixed way package was exporting it's functions
 - Exporting sourcemaps
@@ -79,4 +82,4 @@ bus.trigger("Lorem Ipsum");
 - Added default generic type for `Omnibus` and `OmnibusRegistrator`
 
 ### Version 0.0.1
-Initial Release
+- Initial Release

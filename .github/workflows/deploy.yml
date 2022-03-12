@@ -42,11 +42,11 @@ jobs:
       NPM_TOKEN: ${{secrets.NPM_TOKEN}}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-    - uses: actions/checkout@v1
     - name: Download math result for job 1
-      uses: actions/download-artifact@v1
+      uses: actions/download-artifact@v3
       with:
         name: artifacts
+        path: .
     - name: Publish
       run: npm publish --access public
     - name: Publish tag
