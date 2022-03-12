@@ -29,8 +29,8 @@ jobs:
     - name: Upload dist folder
       uses: actions/upload-artifact@v1
       with:
-        name: dist
-        path: dist/
+        name: artifacts
+        path: .
 
   publish:
     runs-on: ubuntu-latest
@@ -43,7 +43,7 @@ jobs:
     - name: Download math result for job 1
       uses: actions/download-artifact@v1
       with:
-        name: dist
+        name: artifacts
     - name: Publish
       run: npm publish --access public
     - name: Publish tag
