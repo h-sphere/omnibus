@@ -43,9 +43,4 @@ jobs:
       run: yarn install --frozen-lockfile
     - name: Compile
       run: yarn compile
-    - name: Upload dist folder
-      uses: actions/upload-artifact@v1
-      with:
-        name: dist
-        path: dist/
 
