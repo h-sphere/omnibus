@@ -43,13 +43,17 @@ jobs:
       NPM_TOKEN: ${{secrets.NPM_TOKEN}}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-    - uses: actions/checkout@v3
-    - name: Download artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: artifacts
-        path: .
-    - name: Publish
-      run: npm publish --access public
-    - name: Publish tag
-      run: hub release create -m "`node -p "require('./package.json').version"`" `node -p "require('./package.json').version"`
+      - uses: actions/checkout@v1
+      - name: Download dist
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+      - name: Check if version has been updated
+        id: check
+        uses: EndBug/version-check@v2
+      - name: Publish
+        if: steps.check.outputs.changed == 'true'
+        run: npm publish --access public
+      - name: Publish tag
+        if: steps.check.outputs.changed == 'true'
+        run: gh release create `node -p require('package.json').version`
