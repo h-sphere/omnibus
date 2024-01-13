@@ -5,8 +5,18 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x, 20.x, 21.x] # Define Node.js versions
+        typescript-version: ['3.9', '4.0', '4.3'] # Define TypeScript versions
     steps:
     - uses: actions/checkout@v1
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install TypeScript
+      run: npm install -g typescript@${{ matrix.typescript-version }}
     - name: Remove .npmrc
       run: rm .npmrc
     - name: Get yarn cache
