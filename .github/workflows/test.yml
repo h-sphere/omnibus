@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x, 20.x, 21.x] # Define Node.js versions
-        typescript-version: ['3.9', '4.0', '4.3'] # Define TypeScript versions
+        typescript-version: ['3.9', '4.0', '4.3', '5.3'] # Define TypeScript versions
     steps:
     - uses: actions/checkout@v1
     - name: Setup Node.js
