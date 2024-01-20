@@ -7,3 +7,5 @@ dist/
 tsconfig.tsbuildinfo
 !babel.config.js
 yarn-error.log
+docs/.vitepress/dist
+docs/.vitepress/cache
