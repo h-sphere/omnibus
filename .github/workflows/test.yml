@@ -17,8 +17,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install TypeScript
       run: npm install -g typescript@${{ matrix.typescript-version }}
-    - name: Remove .npmrc
-      run: rm .npmrc
     - name: Get yarn cache
       id: yarn-cache
       run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -37,8 +35,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Remove .npmrc
-      run: rm .npmrc
     - name: Get yarn cache
       id: yarn-cache
       run: echo "::set-output name=dir::$(yarn cache dir)"
