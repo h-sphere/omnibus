@@ -10,7 +10,7 @@
     "lib": ["es2022", "esnext.decorators", "esnext.disposable"],
     "sourceMap": true,
     "baseUrl": "./src",
-    "outDir": ".",
+    "outDir": "./dist",
     "incremental": true,
   },
   "include": ["src/"],
