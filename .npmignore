@@ -1,4 +1,14 @@
 node_modules
-src/
 babel.config.js
 *.test.js
+dist/*.test.js
+.github
+.cache
+src
+.gitignore
+.npmignore
+.npmrc
+jest.config.js
+tsconfig.json
+yarn.lock
+coverage

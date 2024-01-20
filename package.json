@@ -1,8 +1,8 @@
 {
   "name": "@hypersphere/omnibus",
   "version": "0.1.0",
-  "main": "./index.js",
-  "types": "./index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "license": "MIT",
   "devDependencies": {
     "@babel/plugin-proposal-explicit-resource-management": "^7.23.3",
