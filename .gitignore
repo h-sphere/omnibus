@@ -7,4 +7,3 @@ dist/
 tsconfig.tsbuildinfo
 !babel.config.js
 yarn-error.log
-

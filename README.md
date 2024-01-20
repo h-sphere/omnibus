@@ -40,26 +40,37 @@ bus.trigger("message", new Message("xxx"), user1, user2);
 
 ```
 
-### Using helper functions
+### Using BusBuilder
+
 ```typescript
-import { Omnibus } from "@hypersphere/omnibus";
-import { skipDuplicates } from "@hypersphere/omnibus/functions";
-const bus = new Omnibus();
-bus.on("message", skipDuplicates(message => {
-    console.log(message);
-}));
+import { BusBuilder, args } from '@hypersphere/omnibus';
 
-bus.trigger("Hello World");
-bus.trigger("Hello World");
-bus.trigger("Lorem Ipsum");
+const bus = BusBuilder
+    .init()
+    .register('message', args<string>())
+    .register('error', args<string>())
+    .build()
 
-/* Console:
-    Hello World
-    Lorem Ipsum
-*/
+bus.on('message', (x: string) => { })
+bus.on('error', (x: string) => { })
 ```
 
+### Using Bus Builder derive
+
+TODO: finish this
+
+### Using with `using` syntax
+
+TODO: finish this
+
 ## Changelog
+
+### Version 0.1.0
+This version is jam-packed with great new features:
+- Introducing new `BusBuilder` that allows you to build your event bus in declarative way
+- `BusBuilder` allows you to compose new events based on the other ones providing powerful way of filtering, mapping and reducing messages
+- The `on` method can be now used with new [Explicit Resource Management](https://github.com/tc39/proposal-explicit-resource-management) allowing you to use `using` keyword to remove event when exiting function
+- Breaking change: Removed `functions` helpers as they are now being replaced with `BusBuilder` approach
 
 ### Version 0.0.6
 - Fixing issue with delay using interval instead of timeout function.
