@@ -50,7 +50,7 @@ jobs:
         id: check
         uses: EndBug/version-check@v2
       - name: Set Token
-        run: npm config set _authToken=$NPM_TOKEN
+        run: npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
       - name: Publish
         # if: steps.check.outputs.changed == 'true'
         run: npm publish --access public
