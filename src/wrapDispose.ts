@@ -4,5 +4,5 @@
 export const wrapDispose = (fn: CallableFunction) => {
     const wrapped = () => fn()
     wrapped[(Symbol as any).dispose] = () => wrapped()
-    return wrapped
+    return wrapped as any // FIXME by overriding global Symbols and adding the dispose and asyncDispose
 }

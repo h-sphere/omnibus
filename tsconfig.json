@@ -7,7 +7,7 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "target": "ES2022",
-    "lib": ["es2022", "esnext.decorators"],
+    "lib": ["es2022", "esnext.decorators", "esnext.disposable"],
     "sourceMap": true,
     "baseUrl": "./src",
     "outDir": ".",
