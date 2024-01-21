@@ -5,6 +5,7 @@ import { transformerTwoslash } from 'vitepress-plugin-twoslash'
 export default defineConfig({
   title: "Omnibus",
   description: "Event Bus TypeScript Library",
+  base: '/omnibus/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
