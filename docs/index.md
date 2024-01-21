@@ -6,8 +6,8 @@ hero:
   name: "Omnibus"
   text: "Event Bus TypeScript Library"
   image: 
-    light: /assets/logo.svg
-    dark: /assets/logo-light.svg
+    light: /logo.svg
+    dark: /logo-light.svg
     alt: Omnibus Logo
   tagline: The only event library you will ever need
   actions:
@@ -24,12 +24,12 @@ features:
     details: Omnibus can run on any platform without any additional dependencies
   - title: TypeScript first
     icon:
-      src: /assets/ts.png
+      src: /ts.png
       alt: Type Script
     details: Every method, event and property is properly typed and inferred from your code
   - title: Open Sourced
     icon: 
-      src: /assets/os.svg
+      src: /os.svg
       alt: Open Source
     details: Check out the source code, improve, contribute!
 ---
