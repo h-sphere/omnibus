@@ -1,25 +1,24 @@
 import { Parameters } from "./types";
-type Call<Inp extends Array<unknown>, Outp extends Array<unknown>> = (trigger: (...p: Outp) => void, ...p: Inp) => Promise<void>;
 
 export class Builder<Input extends Parameters<any>, Output extends Parameters<any> = Input> {
-    protected call /*Call<Input, Output>*/ = async (t, ...p) => t(...p as unknown as Output)
-    map<NewOutput>(fn: (...i: Output) => NewOutput) {
+    protected call = async (t, ...p) => t(...p as unknown as Parameters<Output>)
+    map<NewOutput>(fn: (...i: Parameters<Output>) => NewOutput | Promise<NewOutput>) {
         const prev = this.call
         this.call = async (t, ...p) => {
-            const trigger = (...p: Output) => {
-                const data = fn(...p as any) as any
+            const trigger = async (...p: Parameters<Output>) => {
+                const data = await fn(...p as any) as any
                 const arrayData = (Array.isArray(data) ? data : [data] as Output)
-                t(...arrayData as any)
+                await t(...arrayData as any)
             }
             await prev(trigger, ...p)
         }
-        return this as unknown as Builder<Input, Parameters<NewOutput>>
+        return this as unknown as Builder<Input, Awaited<Parameters<NewOutput>>>
     }
 
-    filter(filt: (...i: Input) => boolean) {
+    filter(filt: (...i: Parameters<Input>) => boolean) {
         const prev = this.call
         this.call = async (t, ...p) => {
-            if (filt(...p as any)) {
+            if (await filt(...p as any)) {
                 await prev(t, ...p)
             }
         }
@@ -27,18 +26,26 @@ export class Builder<Input extends Parameters<any>, Output extends Parameters<an
         return this
     }
 
-    reduce<NewOut>(fn: (...val: [...Output, NewOut]) => NewOut, init: NewOut) {
+    reduce<NewOut>(fn: (...val: [...Parameters<Output>, ...Parameters<NewOut>]) => NewOut, init: NewOut) {
         const prev = this.call
-        let acc = init
+        let acc= (Array.isArray(init) ? init : [init]) as Parameters<NewOut>
         this.call = async (t, ...p) => {
-            const trigger = (...p: Output) => {
-                const newVal = fn(...[...p, acc]);
-                acc = newVal;
-                (t as any)(newVal) // FIXME: not sure how to fix this
+            const trigger = async (...p: Parameters<Output>) => {
+                const newVal = await fn(...[...p, ...acc]);
+                acc = (Array.isArray(newVal) ? newVal : [newVal]) as Parameters<NewOut>
+                await (t as any)(newVal) // FIXME: not sure how to fix this
             }
             await prev(trigger, ...p)
         }
-        return this as unknown as Builder<Input, Parameters<NewOut>>
+        return this as unknown as Builder<Input, Awaited<Parameters<NewOut>>>
+    }
+
+    protected shouldMemoize: boolean = false
+
+    memoize() {
+        this.shouldMemoize = true
+
+        return this
     }
 
     static init<Input>() {
@@ -49,7 +56,25 @@ export class Builder<Input extends Parameters<any>, Output extends Parameters<an
 
 export class BuildableBuilder<Input extends Parameters<any>, Output extends Parameters<any> = Input> extends Builder<Input, Output> {
     build() {
-        return this.call
+        if (!this.shouldMemoize) {
+            return this.call
+        }
+
+        const mem = new Map<string, Parameters<Output>>()
+        return async (t, ...p: Parameters<Input>) => {
+
+            const hash = p.map(el => el.toString()).join('::::')
+
+            if (mem.has(hash)) {
+                return mem.get(hash)
+            }
+            const newT = (...res: Parameters<Output>) => {
+                mem.set(hash, res)
+                return t(...res)
+            }
+
+            this.call(newT, ...p)
+        }
     }
 
     static init<Input>() {
@@ -57,11 +82,11 @@ export class BuildableBuilder<Input extends Parameters<any>, Output extends Para
     }
 
     // We need to cast map, this looks nasty, not sure if there's better way of doing it in TS
-    map<NewOutput>(fn: (...i: Output) => NewOutput): BuildableBuilder<Input, Parameters<NewOutput>> {
-        return super.map(fn) as unknown as BuildableBuilder<Input, Parameters<NewOutput>>
+    map<NewOutput>(fn: (...i: Parameters<Output>) => NewOutput | Promise<NewOutput>): BuildableBuilder<Input, Awaited<Parameters<NewOutput>>> {
+        return super.map(fn) as unknown as BuildableBuilder<Input, Awaited<Parameters<NewOutput>>>
     }
-    reduce<NewOut>(fn: (...val: [...Output, NewOut]) => NewOut, init: NewOut) {
-        return super.reduce(fn, init) as unknown as BuildableBuilder<Input, Parameters<NewOut>>
+    reduce<NewOut>(fn: (...val: [...Parameters<Output>, ...Parameters<NewOut>]) => NewOut, init: NewOut) {
+        return super.reduce(fn, init) as unknown as BuildableBuilder<Input, Awaited<Parameters<NewOut>>>
     }
 }
 

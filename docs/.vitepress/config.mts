@@ -15,8 +15,26 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Quick Start',
+        text: 'Guide',
         items: [
+          { text: 'Quick Start', link: '/quick-start' },
+          {
+            text: 'Overview',
+            items: [
+              { text: 'Basics', link: '/basics' },
+              { text: 'Installation', link: '/installation' },
+              { text: 'Registering Events', link: '/registering-events' },
+              { text: 'Triggering Events', link: '/triggering-events' },
+              { text: 'Listening to Events', link: '/listening-to-events' }
+            ]
+          },
+          {
+            text: 'Examples',
+            items: [
+              { text: 'Logger', link: '/examples/logger', docFooterText: 'Examples: Logger' },
+              { text: 'MIDIVal', link: '/examples/midival', docFooterText: 'Examples: MIDIVal' }
+            ]
+          }
         ]
       }
     ],

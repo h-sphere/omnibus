@@ -1,7 +1,7 @@
 import { BuildableBuilder } from "./Builder"
 
 describe("Builder", () => {
-    it("should properly prepare builder", () => {
+    it("should properly prepare builder", async () => {
         const fn = BuildableBuilder
             .init<{ count: number }>()
             .filter(c => c.count > 3)
@@ -9,30 +9,30 @@ describe("Builder", () => {
             .build()
 
         const call = jest.fn()
-        fn(call, { count: 2 })
+        await fn(call, { count: 2 })
         expect(call).not.toHaveBeenCalled()
 
-        fn(call, { count: 5 })
+        await fn(call, { count: 5 })
         expect(call).toHaveBeenCalledWith(5)
     })
 
-    it('should test reduce on its own', () => {
+    it('should test reduce on its own', async () => {
         const fn = BuildableBuilder
             .init<number>()
             .reduce((a, b) => a + b, 0)
             .build()
         const call = jest.fn()
-        fn(call, 4)
+        await fn(call, 4)
         expect(call).toHaveBeenCalledWith(4)
 
-        fn(call, 1)
+        await fn(call, 1)
         expect(call).toHaveBeenCalledWith(5)
 
-        fn(call, 10)
+        await fn(call, 10)
         expect(call).toHaveBeenCalledWith(15)
     })
 
-    it('should combine filter and reduce', () => {
+    it('should combine filter and reduce', async () => {
         const fn = BuildableBuilder
             .init<number>()
             .filter(x => x >= 10)
@@ -41,20 +41,20 @@ describe("Builder", () => {
 
         const call = jest.fn()
 
-        fn(call, 3)
-        fn(call, 5)
-        fn(call, 1)
-        fn(call, 2)
+        await fn(call, 3)
+        await fn(call, 5)
+        await fn(call, 1)
+        await fn(call, 2)
         expect(call).not.toHaveBeenCalled()
 
-        fn(call, 10)
+        await fn(call, 10)
         expect(call).toHaveBeenCalledWith(10)
 
-        fn(call, 25)
+        await fn(call, 25)
         expect(call).toHaveBeenCalledWith(35)
     })
 
-    it('should use all methods at the same time', () => {
+    it('should use all methods at the same time', async () => {
         const fn = BuildableBuilder
         .init<{ count: number, message: string}>()
         .filter(m => m.message === 'qualify')
@@ -65,11 +65,11 @@ describe("Builder", () => {
         .build()
 
         const call = jest.fn()
-        fn(call, { count: 5, message: 'qualify'})
+        await fn(call, { count: 5, message: 'qualify'})
         expect(call).toHaveBeenCalledWith({ result: 10 })
     })
 
-    it('should run multiple filters in a row', () => {
+    it('should run multiple filters in a row', async () => {
         const fn = BuildableBuilder
         .init<{ count: number }>()
         .filter(c => c.count % 2 === 0)
@@ -80,13 +80,28 @@ describe("Builder", () => {
 
         const call = jest.fn()
 
-        fn(call, { count: 2 })
-        fn(call, { count: 12 })
-        fn(call, { count: 13 })
-        fn(call, { count: 22 })
-        fn(call, { count: 51 })
+        await fn(call, { count: 2 })
+        await fn(call, { count: 12 })
+        await fn(call, { count: 13 })
+        await fn(call, { count: 22 })
+        await fn(call, { count: 51 })
 
         expect(call).toHaveBeenCalledTimes(1)
         expect(call).toHaveBeenCalledWith(12)
+    })
+    
+    it('should properly create bus with reduce', async () => {
+        const fn = BuildableBuilder
+            .init<{ count: number }>()
+            .filter(v => v.count > 0)
+            .reduce((v, acc) => v.count + acc, 0)
+            .map(v => ({ sum: v }))
+            .build()
+        
+        const trigger = jest.fn()
+        await fn(trigger, { count: 5 })
+        expect(trigger).toHaveBeenCalledWith({ sum: 5})
+        await fn(trigger, { count: 10 })
+        expect(trigger).toHaveBeenLastCalledWith({ sum: 15 })
     })
 })
