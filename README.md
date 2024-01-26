@@ -65,6 +65,11 @@ TODO: finish this
 
 ## Changelog
 
+### Version 0.1.1
+- Fixing issue with `.reduce` interface - now handles arrays properly
+- Adding `.memoize` builder method so values can be properly handled between calls
+- Fixed bunch of typings
+
 ### Version 0.1.0
 This version is jam-packed with great new features:
 - Introducing new `BusBuilder` that allows you to build your event bus in declarative way
