@@ -1303,6 +1303,11 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.1.tgz#16308cea045f0fc777b6ff20a9f25474dd8293d2"
   integrity sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==
 
+"@hypersphere/omnibus@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@hypersphere/omnibus/-/omnibus-0.1.0.tgz#411efddf2d2fd28e1e35ab4cfb5f354b44d78c40"
+  integrity sha512-mnSe9cJhSUTUx1UAQVZPBE2RfhSFhjjAmMZiB4KCvugt+tKvM5G7Y85ti3kXz5BSS1QVj99hZhLwKT03KUUerQ==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"

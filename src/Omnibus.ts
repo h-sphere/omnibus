@@ -1,6 +1,7 @@
 import { wrapDispose } from "./wrapDispose";
 import { OmnibusRegistrator } from "./Registrator";
 import { CallbackType, Definitions, Transformers, UnregisterCallback } from "./types";
+import { BusBuilder } from "./BusBuilder";
 
 export class Omnibus<EventDefinitions extends Record<keyof EventDefinitions, unknown[]> = Record<string, unknown[]>> {
     #callbacks: Map<keyof EventDefinitions, Array<CallbackType<EventDefinitions[keyof EventDefinitions]>>>;
@@ -9,6 +10,10 @@ export class Omnibus<EventDefinitions extends Record<keyof EventDefinitions, unk
     constructor(transformers?: Transformers<EventDefinitions>) {
         this.#callbacks = new Map();
         this.#transformers = transformers || new Map();
+    }
+
+    static builder() {
+        return new BusBuilder()
     }
 
     on<T extends keyof EventDefinitions>(event: T, fn: CallbackType<EventDefinitions[T]>): UnregisterCallback {
