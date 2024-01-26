@@ -52,8 +52,7 @@ jobs:
       - name: Set Token
         run: npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
       - name: Publish
-        # if: steps.check.outputs.changed == 'true'
+        if: steps.check.outputs.changed == 'true'
         run: npm publish --access public
-      - name: Publish tag
-        # if: steps.check.outputs.changed == 'true'
-        run: gh release create `node -p require('package.json').version`
+      - name: Release
+        uses: softprops/action-gh-release@v1
