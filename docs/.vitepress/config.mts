@@ -25,7 +25,8 @@ export default defineConfig({
               { text: 'Installation', link: '/installation' },
               { text: 'Registering Events', link: '/registering-events' },
               { text: 'Triggering Events', link: '/triggering-events' },
-              { text: 'Listening to Events', link: '/listening-to-events' }
+              { text: 'Listening to Events', link: '/listening-to-events' },
+              { text: 'Using Registrator', link: '/using-registrator' }
             ]
           },
           {

@@ -59,6 +59,5 @@ describe("Bus Builder", () => {
 
         expect(onError).not.toHaveBeenCalled()
         expect(onWarning).toHaveBeenCalled()
-
     })
 })

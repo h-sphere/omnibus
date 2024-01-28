@@ -65,6 +65,13 @@ TODO: finish this
 
 ## Changelog
 
+
+### Version 0.1.2
+- minor: improving returned types by flattening them = better TS inspection
+- exposing two new helper types: `OmnibusEvents` and `OmnibusEventPayload`
+- Fixed issue with Registrator's `.off` method not working properly
+- Added support for disposing `OmnibusRegistrator` and added documentation around this logic
+
 ### Version 0.1.1
 - Fixing issue with `.reduce` interface - now handles arrays properly
 - Adding `.memoize` builder method so values can be properly handled between calls
