@@ -3,7 +3,11 @@ import { CallbackType } from "./types";
 
 export class OmnibusRegistrator<EventDefinition extends Record<keyof EventDefinition, unknown[]> = Record<string, unknown[]>> {
     #bus: Omnibus<EventDefinition>;
-    #registered: Array<{ name: keyof EventDefinition, fn: CallbackType<EventDefinition[keyof EventDefinition]> }>;
+    #registered: Array<{
+        name: keyof EventDefinition,
+        fn: CallbackType<EventDefinition[keyof EventDefinition]>,
+        wrappedFn: CallbackType<EventDefinition[keyof EventDefinition]>
+    }>;
 
     constructor(bus: Omnibus<EventDefinition>) {
         this.#bus = bus;
@@ -11,13 +15,15 @@ export class OmnibusRegistrator<EventDefinition extends Record<keyof EventDefini
     }
 
     on<T extends keyof EventDefinition>(event: T, fn: CallbackType<EventDefinition[T]>): () => void {
-        this.#bus.on(event, fn);
+        const wrappedFn: CallbackType<EventDefinition[T]> = (...args) => fn(...args)
+        this.#bus.on(event, wrappedFn);
         this.#registered.push({
             name: event,
-            fn: fn as unknown as CallbackType<EventDefinition[keyof EventDefinition]>,
+            wrappedFn,
+            fn
         });
         return () => {
-            this.off(event, fn);
+            this.off(event, wrappedFn);
         }
     }
 
@@ -26,14 +32,18 @@ export class OmnibusRegistrator<EventDefinition extends Record<keyof EventDefini
         if (!properCall) {
             throw new Error("Event you are trying to unregister was not registered via this Registrator");
         }
-        this.off(name, fn);
+        this.#bus.off(name, properCall.wrappedFn);
         this.#registered = this.#registered.filter((entry) => !(entry.name === name && entry.fn === fn));
     }
 
     offAll(): void {
-        this.#registered.forEach(({ name, fn }) => {
-            this.#bus.off(name, fn);
+        this.#registered.forEach(({ name, wrappedFn }) => {
+            this.#bus.off(name, wrappedFn);
         });
         this.#registered = [];
+    }
+
+    [Symbol.dispose]() {
+        this.offAll()
     }
 }

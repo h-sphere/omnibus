@@ -18,4 +18,3 @@ export interface Transform<D extends Definitions> {
     transformer: (t: Trigger, ...d: any) => Promise<void>;
 }
 export type Transformers<D extends Definitions> = Map<keyof D, undefined | Transform<D>[]>;
-

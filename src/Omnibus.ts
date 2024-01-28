@@ -3,6 +3,7 @@ import { OmnibusRegistrator } from "./Registrator";
 import { CallbackType, Definitions, Transformers, UnregisterCallback } from "./types";
 import { BusBuilder } from "./BusBuilder";
 
+
 export class Omnibus<EventDefinitions extends Record<keyof EventDefinitions, unknown[]> = Record<string, unknown[]>> {
     #callbacks: Map<keyof EventDefinitions, Array<CallbackType<EventDefinitions[keyof EventDefinitions]>>>;
     #transformers: Transformers<EventDefinitions>
@@ -56,3 +57,7 @@ export class Omnibus<EventDefinitions extends Record<keyof EventDefinitions, unk
         return new OmnibusRegistrator(this);
     }
 }
+
+export type OmnibusEvents<O extends Omnibus<any>> = O extends Omnibus<infer E> ? E : never
+
+export type OmnibusEventPayload<O extends Omnibus<any>, K extends keyof OmnibusEvents<O>> = OmnibusEvents<O>[K]

@@ -54,5 +54,21 @@ jobs:
       - name: Publish
         if: steps.check.outputs.changed == 'true'
         run: npm publish --access public
+  github-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: publish
+    steps:
+      - uses: actions/checkout@v1
+      - name: Check if version has been updated
+        id: check
+        uses: EndBug/version-check@v2
+      - name: Tag
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git tag `cat package.json | jq -r '.version'`
+          git push origin --tags
       - name: Release
+        if: steps.check.outputs.changed == 'true'
         uses: softprops/action-gh-release@v1

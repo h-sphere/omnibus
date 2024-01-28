@@ -2,10 +2,12 @@ import { BuildableBuilder, Builder } from "./Builder";
 import { Omnibus } from "./Omnibus";
 import { Definitions, Transformers, Parameters } from "./types";
 
+type FlatType<T> = T extends object ? { [K in keyof T]: FlatType<T[K]> } : T
+
 export class BusBuilder<D extends Definitions = {}> {
     #transformers: Transformers<D> = new Map()
     register<N extends string, T>(name: N, _: Builder<Parameters<T>>) {
-        return this as unknown as BusBuilder<D & Record<N, Parameters<T>>>
+        return this as unknown as BusBuilder<FlatType<D & Record<N, Parameters<T>>>>
     }
 
     derive<T extends string, Der extends keyof D, Inp, Res extends Parameters<any>>(targetKey: T, sourceKey: Der, fn: (b: Builder<D[Der], D[Der]>) => Builder<D[Der], Res>) {
@@ -20,11 +22,11 @@ export class BusBuilder<D extends Definitions = {}> {
                 transformer,
             }
         ])
-        return this as unknown as BusBuilder<D & Record<T, Parameters<Res>>>
+        return this as unknown as BusBuilder<FlatType<D & Record<T, Parameters<Res>>>>
     }
 
     build() {
-        const bus = new Omnibus<D>(this.#transformers)
+        const bus = new Omnibus<FlatType<D>>(this.#transformers)
 
         return bus
     }
