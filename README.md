@@ -66,6 +66,9 @@ TODO: finish this
 ## Changelog
 
 
+### Version 0.1.3
+- Added new `.from` method for `Omnibus.builder()` - you can now combine events from other buses (including native buses and other libraries!)
+
 ### Version 0.1.2
 - minor: improving returned types by flattening them = better TS inspection
 - exposing two new helper types: `OmnibusEvents` and `OmnibusEventPayload`

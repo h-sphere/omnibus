@@ -60,4 +60,62 @@ describe("Bus Builder", () => {
         expect(onError).not.toHaveBeenCalled()
         expect(onWarning).toHaveBeenCalled()
     })
+
+    it('should properly attach Omnibus to another omnibus by passing `.on` method directly', async () => {
+        const bus1 = new BusBuilder()
+            .register('log', args<string>())
+            .build()
+
+        const bus2 = new BusBuilder()
+            .from(bus1.on, 'log')
+            .register('log2', args<string>())
+            .build()
+
+        const callback = jest.fn()
+        bus2.on('log', callback)
+
+        await bus1.trigger('log', 'hello')
+        expect(callback).toHaveBeenCalledWith('hello')
+    })
+
+    it('should properly attach Omnibus to another omnibus by passing whole bus', async () => {
+        const bus1 = new BusBuilder()
+            .register('log', args<string>())
+            .register('qwerty', args<{ x: number, y: number}>())
+            .build()
+
+        const bus2 = new BusBuilder()
+            .from(bus1, 'log')
+            // .register('log2', args<string>())
+            .from(bus1, 'qwerty')
+            // .from(bus1.on, 'log2')
+            .build()
+
+        const callback = jest.fn()
+        bus2.on('log', callback)
+        bus2.on('qwerty', x => {
+            x
+        })
+
+        await bus1.trigger('log', 'hello')
+        expect(callback).toHaveBeenCalledWith('hello')
+    })
+
+    it('should properly use another bus with name overriding', async () => {
+        const bus1 = new BusBuilder()
+            .register('log', args<number>())
+            .build()
+
+        const bus2 = new BusBuilder()
+            .from(bus1, 'log', 'myNewAmazingLog')
+            .build()
+
+        const callback = jest.fn()
+        bus2.on('myNewAmazingLog', callback)
+        await bus1.trigger('log', 5)
+        await bus1.trigger('log', 10)
+        expect(callback).toHaveBeenCalledTimes(2)
+        expect(callback).toHaveBeenCalledWith(5)
+        expect(callback).toHaveBeenCalledWith(10)
+    })
 })
