@@ -4,13 +4,15 @@ import { CallbackType, Definitions, Transformers, UnregisterCallback } from "./t
 import { BusBuilder } from "./BusBuilder";
 
 
-export class Omnibus<EventDefinitions extends Record<keyof EventDefinitions, unknown[]> = Record<string, unknown[]>> {
+export class Omnibus<EventDefinitions extends Record<keyof EventDefinitions, unknown[]> = Record<string, unknown[]>, OmitKeys extends string = ''> {
     #callbacks: Map<keyof EventDefinitions, Array<CallbackType<EventDefinitions[keyof EventDefinitions]>>>;
     #transformers: Transformers<EventDefinitions>
     
     constructor(transformers?: Transformers<EventDefinitions>) {
         this.#callbacks = new Map();
         this.#transformers = transformers || new Map();
+
+        this.on = this.on.bind(this)
     }
 
     static builder() {
@@ -37,7 +39,7 @@ export class Omnibus<EventDefinitions extends Record<keyof EventDefinitions, unk
         this.#callbacks = new Map();
     }
 
-    async trigger<T extends keyof EventDefinitions>(event: T, ...args: EventDefinitions[T]): Promise<void> {
+    async trigger<T extends keyof Omit<EventDefinitions, OmitKeys>>(event: T, ...args: EventDefinitions[T]): Promise<void> {
         const calls = this.#callbacks.get(event) || [];
         
         await Promise
@@ -48,7 +50,7 @@ export class Omnibus<EventDefinitions extends Record<keyof EventDefinitions, unk
         
         if (this.#transformers.has(event)) {
             await Promise.all(this.#transformers.get(event).map(({ targetKey, transformer }) => {
-                return transformer( (...d) => this.trigger(targetKey, ...d as any), ...args as any)
+                return transformer( (...d) => this.trigger(targetKey as any, ...d as any), ...args as any)
             }))
         }
     }
