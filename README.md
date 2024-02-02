@@ -65,6 +65,8 @@ TODO: finish this
 
 ## Changelog
 
+### Version 0.1.4
+- Adding `.once` method allowing you to listen to specific event once.
 
 ### Version 0.1.3
 - Added new `.from` method for `Omnibus.builder()` - you can now combine events from other buses (including native buses and other libraries!)

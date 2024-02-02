@@ -85,8 +85,6 @@ export class BusBuilder<D extends Definitions = {}, OmitKeys extends string = ''
     from<const T extends string, Ret extends FromType<T, any>, const K extends string>(bus: Ret, event: TypeKeys<Ret>, newEvent?: K) {
 
         const register = (omnibus: Omnibus) => {
-            console.log('regis', register)
-            // return
             if (isEventListenerRegistrator(bus)) {
                 // FIXME: add unregister somewhere.
                 const cb = (...v) => {

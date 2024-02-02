@@ -151,4 +151,50 @@ describe("Omnibus", () => {
         await bus.trigger('log', 'hello world')
         expect(onLog).toHaveBeenCalledWith('hello world')
     })
+
+    it('should call callback once - single argument', async () => {
+        const bus = Omnibus.builder()
+            .register('log', args<string>())
+            .build()
+        const promise = bus.once('log')
+        const cb = jest.fn()
+        promise.then(cb)
+
+        expect(cb).not.toHaveBeenCalled()
+
+        await bus.trigger('log', 'hello')
+        expect(cb).toHaveBeenCalledWith('hello')
+        await bus.trigger('log', 'world')
+        expect(cb).not.toHaveBeenCalledWith('world')
+    })
+
+    it('should call callback once - multiple arguments', async () => {
+        const bus = Omnibus.builder()
+            .register('log', args<[string, number, string]>())
+            .build()
+        const promise = bus.once('log')
+        const cb = jest.fn()
+        promise.then(cb)
+
+        expect(cb).not.toHaveBeenCalled()
+
+        await bus.trigger('log', 'hello', 5, 'world')
+        expect(cb).toHaveBeenCalledWith(['hello', 5, 'world'])
+        await bus.trigger('log', 'x', 1, 'z')
+        expect(cb).not.toHaveBeenCalledWith(['x', 1, 'z'])
+        expect(cb).toHaveBeenCalledTimes(1)
+    })
+
+    it('should call callback once - callback passed as parameter', async () => {
+        const bus = Omnibus.builder()
+            .register('log', args<[string, number, string]>())
+            .build()
+
+        const cb = jest.fn()
+        const _unregister = bus.once('log', cb)
+        await bus.trigger('log', 'xxx', 5, 'yyy')
+        expect(cb).toHaveBeenCalledWith('xxx', 5, 'yyy')
+        await bus.trigger('log', 'xxx', 5, 'yyy')
+        expect(cb).toHaveBeenCalledTimes(1)
+    })
 })
