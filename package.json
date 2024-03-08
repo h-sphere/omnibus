@@ -5,6 +5,11 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "license": "MIT",
+  "homepage": "https://hypersphere.blog/omnibus",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/h-sphere/omnibus"
+  },
   "devDependencies": {
     "@babel/plugin-proposal-explicit-resource-management": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
