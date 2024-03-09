@@ -8,7 +8,7 @@
   "homepage": "https://hypersphere.blog/omnibus",
   "repository": {
     "type": "git",
-    "url": "https://github.com/h-sphere/omnibus"
+    "url": "git+https://github.com/h-sphere/omnibus.git"
   },
   "devDependencies": {
     "@babel/plugin-proposal-explicit-resource-management": "^7.23.9",
@@ -34,5 +34,8 @@
   },
   "dependencies": {
     "@hypersphere/omnibus": "workspace:."
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
