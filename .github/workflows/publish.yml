@@ -25,6 +25,7 @@ jobs:
           node-version: 21.x
           cache: "pnpm"
           registry-url: 'https://registry.npmjs.org'
+      - run: npm config set access public
       - run: pnpm install --frozen-lockfile
       - name: Create Release Pull Request or Publish
         id: changesets
