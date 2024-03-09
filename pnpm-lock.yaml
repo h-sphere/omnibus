@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@hypersphere/omnibus':
-    specifier: ^0.1.1
-    version: 0.1.1
+    specifier: workspace:.
+    version: 'link:'
 
 devDependencies:
   '@babel/plugin-proposal-explicit-resource-management':
@@ -1882,10 +1882,6 @@ packages:
   /@floating-ui/utils@0.2.1:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
     dev: true
-
-  /@hypersphere/omnibus@0.1.1:
-    resolution: {integrity: sha512-5MUX9qGd0sYPo/jL9whC6OIAjZS1viZjEv+EAVvJekWrZoAq64dOnMBGUUdjiC7QaYl+1W4cJxC7BMvGfO/tAA==}
-    dev: false
 
   /@isaacs/cliui@8.0.2:
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
