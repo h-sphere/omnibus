@@ -26,6 +26,9 @@ jobs:
           cache: "pnpm"
           registry-url: 'https://registry.npmjs.org'
           always-auth: true
+      - name: Setting up NPMRC
+        run: |
+          cp .npmrc_publish .npmrc
       - run: npm config set access public
       - run: pnpm install --frozen-lockfile
       - run: ls -la
