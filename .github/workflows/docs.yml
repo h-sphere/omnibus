@@ -31,13 +31,14 @@ jobs:
         with:
           node-version: 21.x
           cache: "pnpm"
-
       - run: pnpm install --frozen-lockfile
       - name: Setup Pages
         uses: actions/configure-pages@v3
+      - name: Build Omnibus
+        run: pnpm run build 
       - name: Build with VitePress
         run: |
-          yarn docs:build
+          pnpm run docs:build
           touch docs/.vitepress/dist/.nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
