@@ -29,6 +29,8 @@ jobs:
       - name: Setting up NPMRC
         run: |
           cp .npmrc_publish .npmrc
+      - run: cat ~/.npmrc
+      - run: npm config list
       - run: npm config set access public
       - run: pnpm install --frozen-lockfile
       - run: ls -la
