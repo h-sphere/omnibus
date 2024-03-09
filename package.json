@@ -25,6 +25,7 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
+    "release": "pnpm run build && changeset publish",
     "lint": "tsc",
     "test": "jest src/*",
     "docs:dev": "vitepress dev docs",
