@@ -1,6 +1,6 @@
 import { Omnibus, type OmnibusEvents, type OmnibusEventPayload } from "./Omnibus";
 import { OmnibusRegistrator } from "./Registrator";
-import { CallbackType, UnregisterCallback } from "./types";
+import { type CallbackType, type UnregisterCallback } from "./types";
 import { BusBuilder } from './BusBuilder';
 import { args } from "./Builder";
 
