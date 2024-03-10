@@ -22,8 +22,7 @@
     "tsup": "^8.0.2",
     "typescript": "5.4.2",
     "vitepress": "1.0.0-rc.45",
-    "vitepress-plugin-twoslash": "^0.10.2",
-    "@hypersphere/omnibus": "workspace:."
+    "vitepress-plugin-twoslash": "^0.10.2"
   },
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",

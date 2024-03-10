@@ -17,9 +17,6 @@ devDependencies:
   '@changesets/cli':
     specifier: ^2.27.1
     version: 2.27.1
-  '@hypersphere/omnibus':
-    specifier: workspace:.
-    version: 'link:'
   '@swc/core':
     specifier: ^1.4.6
     version: 1.4.6
