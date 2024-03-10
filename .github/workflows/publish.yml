@@ -25,8 +25,6 @@ jobs:
           node-version: 21.x
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
-      - name: Install local version of omnibus
-        run: pnpm i @hypersphere/omnibus@link:. 
       - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@v1
