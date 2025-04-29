@@ -18,14 +18,19 @@ jobs:
           node-version: 21.x
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
-      - name: Build
+      - name: Build Omnibus
+        run: pnpm run build 
+      - name: Install local version of omnibus
+        run: pnpm i @hypersphere/omnibus@link:. 
+      - name: Build with VitePress
         run: |
-          pnpm run build
+          pnpm run docs:build
+          touch docs/.vitepress/dist/.nojekyll
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: dist/
+          local-dir: docs/.vitepress/dist/
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
